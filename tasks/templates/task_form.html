@@ -1,0 +1,39 @@
+{% extends "events/base.html" %}
+ {% block Content %}
+
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Form</title>
+     <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body>
+     <div class="w-1/2 ms-auto mt-8">
+        <div>
+         {% if messages %}
+                {% for message in messages %}
+                    <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-500{% endif %} ">{{message}}</div>
+                {% endfor %}
+            {% endif %}
+
+
+        </div>
+        <form method="POST">
+            <imput type="text" class="border-2 border-gray-500 ">
+            {% csrf_token %}
+            {{form.as_p}}
+           <button type="submit" class="bg-rose-600 px-3 py-2 text-black mt-2 rounded-md">Create Event</button>
+        </form> 
+
+     </div>
+
+</body>
+</html>
+
+
+{% endblock Content %}
