@@ -12,6 +12,7 @@ def base(request):
     return render(request, "events/base.html")
 
 def manager_dashboard(request):
+    events = Event.objects.select_related('details').prefetch_related('assigned_to').all()
     # total_event = Event.objects.count() #TOTAL TASK
     # completed_event = Event.objects.filter(status= "COMPLETED").count #COMPLETED TASK
     # in_progress_event = Event.objects.filter(status= "IN_PROGRESS").count #TASK IN PROGRESS
@@ -75,31 +76,73 @@ def test(request):
     return render(request, 'test.html', context)
 
 
-
-
-
+#new
 def create_task(request):
-    #participants = Participant.objects.all()
-    event_form = EventModelForm()
-    event_detail_form = EventDetailModelForm()
+    # Initialize forms
+    event_form = EventModelForm(request.POST or None)
+    event_detail_form = EventDetailModelForm(request.POST or None)
     
     if request.method == "POST":
-        event_form = EventModelForm(request.POST)
-        event_detail_form = EventDetailModelForm(request.POST)
+        # Note: is_valid() is a method, not a property - need parentheses
+        if event_form.is_valid() and event_detail_form.is_valid():
+            try:
+                # Save event first with commit=False
+                event = event_form.save(commit=False)
+                
+                # If your Event model has a user field, assign the current user
+                if hasattr(event, 'user'):
+                    event.user = request.user
+                
+                event.save()  # Now save to database to get an ID
+                
+                # Save event details
+                event_detail = event_detail_form.save(commit=False)
+                event_detail.event = event  # Link to the saved event
+                event_detail.save()
+                
+                messages.success(request, "Event added successfully")
+                return redirect('manager-dashboard')  # Redirect to a success page
+                
+            except Exception as e:
+                messages.error(request, f"Error creating event: {str(e)}")
+        else:
+            # Print form errors for debugging
+            print("Event form errors:", event_form.errors)
+            print("Detail form errors:", event_detail_form.errors)
+            messages.error(request, "Please correct the errors below")
+
+    context = {
+        "event_form": event_form, 
+        "event_detail_form": event_detail_form
+    }
+    return render(request, "task_form.html", context)
+#new
+
+
+
+# def create_task(request):
+#     #participants = Participant.objects.all()
+#     event_form = EventModelForm()
+#     event_detail_form = EventDetailModelForm()
+    
+#     if request.method == "POST":
+#         event_form = EventModelForm(request.POST)
+#         event_detail_form = EventDetailModelForm(request.POST)
         
 
-        if event_form.is_valid and event_detail_form.is_valid():
-            event = event_form.save()
-            event_detail = event_detail_form.save(commit=False)
-            event_detail.event = event
-            event_detail.save()
+#         if event_form.is_valid and event_detail_form.is_valid():
+#             event = event_form.save(commit=False)
+#             event.save()
+#             event_detail = event_detail_form.save(commit=False)
+#             event_detail.event = event
+#             event_detail.save()
             
-            messages.success(request, "Event added successfully")
-            return redirect('create-task')
+#             messages.success(request, "Event added successfully")
+#             return redirect('create-task')
            
 
-    context = {"event_form": event_form, "event_detail_form": event_detail_form}
-    return render(request, "task_form.html", context)
+#     context = {"event_form": event_form, "event_detail_form": event_detail_form}
+#     return render(request, "task_form.html", context)
 
 
 def update_event(request, id):
