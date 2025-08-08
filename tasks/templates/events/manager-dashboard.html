@@ -5,18 +5,26 @@
  <!-- Task Items  -->
 <div class="divide-y divide-gray-100 min-w-[600px]">
             <!-- Task 1 -->
+{% for event in events %}
             <div class="grid grid-cols-4 gap-3 sm:gap-4 p-3 sm:p-4 items-center">
               <div class="flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                <span class="text-sm sm:text-base bg-blue-800">Test Low Task</span>
+                <span class="text-sm sm:text-base">{{event.title}}</span>
+                <a href='{% url "update-event" event.id %}' class="px-2 py-1 bg-green-500">Edit</a>
+                 <form action='{% url "delete-event" event.id %}' method='POST'>
+                    {% csrf_token %}
+                    <button type='submit' class="px-2 py-1 bg-red-500">Delete</button>
+                </form>
+
+
               </div>
               <div>
                 <span
-                  class="px-2 py-1 sm:px-3 sm:py-1 rounded-full bg-blue-50 text-blue-600 text-xs sm:text-sm"
-                  >Low</span
+                  class="px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm"
+                  >{{event.details.get_priority_display}}</span
                 >
               </div>
-              <div class="flex -space-x-1 sm:-space-x-2">
+              {% comment %} <div class="flex -space-x-1 sm:-space-x-2">
                 <div
                   class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs sm:text-sm border-2 border-white"
                 >
@@ -32,15 +40,16 @@
                 >
                   B
                 </div>
-              </div>
-              <div class="text-gray-500 text-xs sm:text-sm">9 months ago</div>
+              </div> {% endcomment %}
+              <div class="text-gray-500 text-xs sm:text-sm">{{event.status}}</div>
             </div>
+{% endfor %}
 
-            <!-- Task 2 -->
+            {% comment %} <!-- Task 2 -->
             <div class="grid grid-cols-4 gap-3 sm:gap-4 p-3 sm:p-4 items-center">
               <div class="flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
-                <span class="text-sm sm:text-base">Test task</span>
+                <span class="text-sm sm:text-base">Test Event</span>
               </div>
               <div>
                 <span
@@ -72,7 +81,7 @@
             <div class="grid grid-cols-4 gap-3 sm:gap-4 p-3 sm:p-4 items-center">
               <div class="flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full bg-orange-500"></div>
-                <span class="text-sm sm:text-base">Test task</span>
+                <span class="text-sm sm:text-base">Test Event</span>
               </div>
               <div>
                 <span
@@ -103,7 +112,7 @@
                 </div>
               </div>
               <div class="text-gray-500 text-xs sm:text-sm">10 months ago</div>
-            </div>
+            </div> {% endcomment %}
 </div> 
 
 

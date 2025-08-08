@@ -21,19 +21,20 @@
                 {% endfor %}
             {% endif %}
 
-
         </div>
         <form method="POST">
             <imput type="text" class="border-2 border-gray-500 ">
             {% csrf_token %}
-            {{form.as_p}}
-           <button type="submit" class="bg-rose-600 px-3 py-2 text-black mt-2 rounded-md">Create Event</button>
+            {{event_form}}
+            {{event_detail_form}}
+
+           <button type="submit" class="mb-5 bg-rose-600 px-3 py-2 text-black mt-2 rounded-md">Submite</button>
         </form> 
 
      </div>
 
 </body>
 </html>
-
+ 
 
 {% endblock Content %}

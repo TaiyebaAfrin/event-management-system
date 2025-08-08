@@ -39,13 +39,13 @@
                     <a href="{% url 'manager-dashboard' %}" class="hover:text-indigo-200 transition flex items-center">
                         <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
                     </a>
-                    <a href="" class="hover:text-indigo-200 transition flex items-center">
+                    <a href="{% url 'event_list' %}" class="hover:text-indigo-200 transition flex items-center">
                         <i class="fas fa-calendar-day mr-1"></i> Events
                     </a>
-                    <a href="" class="hover:text-indigo-200 transition flex items-center">
+                    <a href="{% url 'participants' %}" class="hover:text-indigo-200 transition flex items-center">
                         <i class="fas fa-users mr-1"></i> Participants
                     </a>
-                    <a href="" class="hover:text-indigo-200 transition flex items-center">
+                    <a href="{% url 'category_list' %}" class="hover:text-indigo-200 transition flex items-center">
                         <i class="fas fa-tags mr-1"></i> Categories
                     </a>
                     <a href="{% url 'create-task' %}" class="bg-primary text-white px-5 py-2 rounded-md hover:bg-opacity-90 transition font-medium">Create Event Form</a>
