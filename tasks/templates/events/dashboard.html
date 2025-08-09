@@ -59,6 +59,8 @@
        <!-- Stats Grid  -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <!-- Total EVENT  -->
+          
+          <a href="{% url 'manager-dashboard' %}">
           <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
             <h3 class="text-xs sm:text-sm font-medium text-gray-500 mb-3 sm:mb-4">TOTAL EVENT</h3>
             <div class="flex justify-between items-start">
@@ -84,8 +86,10 @@
               </div>
             </div>
           </div>
+          </a>
+
           <!-- Completed EVENT  -->
-           <a href="{% url 'manager-dashboard' %}?type=completed">
+          <a href="{% url 'manager-dashboard' %}?type=completed">
           <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
             <h3 class="text-xs sm:text-sm font-medium text-gray-500 mb-3 sm:mb-4">
               COMPLETED EVENT
@@ -115,6 +119,7 @@
           </div>
           </a>
           <!-- EVENT In Progress  -->
+          <a href="{% url 'manager-dashboard' %}?type=in_progress">
           <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
             <h3 class="text-xs sm:text-sm font-medium text-gray-500 mb-3 sm:mb-4">
               EVENT IN PROGRESS
@@ -142,7 +147,9 @@
               </div>
             </div>
           </div>
+          </a>
           <!-- PENDING EVENT  -->
+          <a href="{% url 'manager-dashboard' %}?type=pending">
           <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
             <h3 class="text-xs sm:text-sm font-medium text-gray-500 mb-3 sm:mb-4">PENDING EVENT</h3>
             <div class="flex justify-between items-start">
@@ -168,6 +175,7 @@
               </div>
             </div>
           </div>
+          </a>
         </div> 
 
 

@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
-from .forms import EventForm
 from tasks.forms import EventForm, EventModelForm, EventDetailModelForm
 from tasks.models import Participant, Event, Category
 from datetime import date
@@ -12,6 +11,7 @@ def base(request):
     return render(request, "events/base.html")
 
 def manager_dashboard(request):
+    events = Event.objects.select_related('details').prefetch_related('assigned_to')
     # total_event = Event.objects.count() #TOTAL TASK
     # completed_event = Event.objects.filter(status= "COMPLETED").count #COMPLETED TASK
     # in_progress_event = Event.objects.filter(status= "IN_PROGRESS").count #TASK IN PROGRESS
@@ -24,8 +24,18 @@ def manager_dashboard(request):
         pending=Count('id', filter=Q(status='PENDING')),)
     # retrrvie
     base_query = Event.objects.select_related('details').prefetch_related('assigned_to')
+
+
+    type = request.GET.get('type', 'all')
+
     if type == 'completed':
         events = base_query.filter(status= "COMPLETED")
+    elif type == 'in-progress':
+        events = base_query.filter(status='IN_PROGRESS')
+    elif type == 'pending':
+        events = base_query.filter(status='PENDING')
+    elif type == 'all':
+        events = base_query.all()
 
     context = {
         'events': events,
@@ -85,7 +95,7 @@ def create_task(request):
     
     if request.method == "POST":
         event_form = EventModelForm(request.POST)
-        event_detail_form = EventDetailModelForm(request.POST)
+        event_detail_form = EventDetailModelForm(request.POST, instance=event.details)
         
 
         if event_form.is_valid and event_detail_form.is_valid():
