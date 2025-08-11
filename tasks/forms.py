@@ -20,6 +20,10 @@ class EventForm(forms.Form):
 
 class StyledFormMixin:
     """Mixin to apply style to form fields"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.apply_styled_widgets()
+
     default_classes = "border-2 border-gray-300 w-full p-3 rounded-lg shadow-sm focus:outline-none focus:border-rose-500 focus:ring-rose-500"
 
     def apply_styled_widgets(self):
@@ -57,20 +61,18 @@ class EventModelForm(StyledFormMixin, forms.ModelForm):
             'assigned_to': forms.CheckboxSelectMultiple
         }
         
-    def __init__(self, *args, **kwargs):
-        participants = kwargs.pop('Participant', Participant.objects.all())
-        super().__init__(*args, **kwargs)
-        self.fields['assigned_to'].queryset = participants
-        self.apply_styled_widgets()
+    # def __init__(self, *args, **kwargs):
+    #     participants = kwargs.pop('Participant', Participant.objects.all())
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['assigned_to'].queryset = participants
+    #     self.apply_styled_widgets()
 
 class EventDetailModelForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = EventDetail
         fields = ['priority', 'notes']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.apply_styled_widgets()
+
 
 
 

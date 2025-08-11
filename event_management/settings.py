@@ -1,3 +1,4 @@
+from decouple import config
 from pathlib import Path
 import dj_database_url 
 
@@ -25,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7li0-uc8h=xwr#i&j91lene5^g&y6hwgstbie5k5zbd-!u^i+-'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -45,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tasks',
     'users',
-    "debug_toolbar"
+    "debug_toolbar",
+    "core"
 ]
 
 MIDDLEWARE = [
@@ -112,11 +114,11 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'event_management',
-        'USER': 'postgres',
-        'PASSWORD': '#Admin123',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'NAME': config('DB_NAME', default=''),
+        'USER': config('DB_USER', default=''),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT', cast=int)
     }
 }
 
@@ -168,3 +170,11 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
