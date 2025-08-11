@@ -5,11 +5,24 @@ from tasks.models import Participant, Event, Category
 from datetime import date
 from django.db.models import Q, Count, Max, Min, Avg
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test, login_required, permission_required
+
+
 # Create your views here.
+def is_manager(user):
+    return user.groups.filter(name='Manager').exists()
+
+def is_participant(user):
+    return user.groups.filter(name='Manager').exists()
+
+
+
+
 
 def base(request):
     return render(request, "events/base.html")
 
+#@user_passes_test(is_manager, login_url='no-permission')
 def manager_dashboard(request):
     events = Event.objects.select_related('details').prefetch_related('assigned_to')
     counts = Event.objects.aggregate(
@@ -49,8 +62,8 @@ def manager_dashboard(request):
     #return render(request, "events/manager-dashboard.html", context)
 
 
-
-def user_dashboard(request):
+#@user_passes_test(is_participant, login_url='no-permission')
+def participant_dashboard(request):
     return render(request, "events/user-dashboard.html")
 
 def ev_home(request):
@@ -82,7 +95,8 @@ def test(request):
 
 
 
-
+@login_required
+#@permission_required("tasks.add_event", login_url='no-permission')
 def create_task(request):
     #participants = Participant.objects.all()
     event_form = EventModelForm()
@@ -106,6 +120,9 @@ def create_task(request):
     context = {"event_form": event_form, "event_detail_form": event_detail_form}
     return render(request, "task_form.html", context)
 
+
+@login_required
+#@permission_required("tasks.change_event", login_url='no-permission')
 
 def update_event(request, id):
     event = Event.objects.get(id=id)
@@ -134,7 +151,8 @@ def update_event(request, id):
 
 
 
-
+@login_required
+#@permission_required("tasks.delete_event", login_url='no-permission')
 def delete_event(request, id):
     if request.method == 'POST':
         event = Event.objects.get(id=id)
@@ -159,7 +177,8 @@ def participants(request):
      participants = Participant.objects.all()
      return render(request, "events/participants.html", {"participants": participants})
 
-
+@login_required
+#@permission_required("tasks.view_event", login_url='no-permission')
 def view_event(request):
     participants = Participant.objects.all()
     return render(request, "show_event.html", {"participants": participants})
@@ -173,41 +192,5 @@ def view_event(request):
 def category_list(request):
     categories = Category.objects.all()
     return render(request, 'events/category_list.html', {'categories': categories})
-
-
-
-# def view_event(request):
-#     events = Event.objects.all()
-
-#     event_5 = Event.objects.get(id=1)
-#     return render(request, "show_event.html", {"events": events, "event5": event_5, })
-
-
-
-# def create_task(request):
-#     participants = Participant.objects.all()
-    
-#     if request.method == 'POST':
-#         form = EventForm(request.POST, Participant=participants)
-#         if form.is_valid():
-#             event_data = form.cleaned_data
-#             event = Event.objects.create(
-#                 title=event_data['title'],
-#                 description=event_data['description'],
-#                 due_date=event_data['due_date']
-#             )
-#             event.assigned_to.set(event_data['assigned_to'])
-#             return redirect('message')
-#     else:
-#         form = EventForm(Participant=participants)
-    
-#     return render(request, 'tasks/task_form.html', {"form": form, "message": "Event added successfully"})
-
-
-
-
-
-
-
 
 

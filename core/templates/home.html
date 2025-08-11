@@ -8,15 +8,13 @@
 <body>
     <h1>Welcome home</h1>
     {% if user.is_authenticated %}
-        {{User}}
+        {{ user.username }}  <!-- Use lowercase 'user' and display username -->
         <form action="{% url 'logout' %}" method="POST">
             {% csrf_token %}
             <button type="submit">logout</button>
         </form>
-                 {% else %}
-                      Annonymous
+    {% else %}
+        Anonymous
     {% endif %}
-    
-    
 </body>
 </html>
