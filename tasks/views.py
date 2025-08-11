@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from django.http import HttpResponse
 from tasks.forms import EventForm, EventModelForm, EventDetailModelForm
 from tasks.models import Participant, Event, Category
 from datetime import date
 from django.db.models import Q, Count, Max, Min, Avg
+from django.contrib import messages
 # Create your views here.
 
 def base(request):
@@ -12,11 +12,6 @@ def base(request):
 
 def manager_dashboard(request):
     events = Event.objects.select_related('details').prefetch_related('assigned_to')
-    # total_event = Event.objects.count() #TOTAL TASK
-    # completed_event = Event.objects.filter(status= "COMPLETED").count #COMPLETED TASK
-    # in_progress_event = Event.objects.filter(status= "IN_PROGRESS").count #TASK IN PROGRESS
-    # pending_event = Event.objects.filter(status= "PENDING").count #todo
-
     counts = Event.objects.aggregate(
         total=Count('id'),
         completed=Count('id', filter=Q(status='COMPLETED')),
@@ -95,7 +90,7 @@ def create_task(request):
     
     if request.method == "POST":
         event_form = EventModelForm(request.POST)
-        event_detail_form = EventDetailModelForm(request.POST, instance=event.details)
+        event_detail_form = EventDetailModelForm(request.POST)
         
 
         if event_form.is_valid and event_detail_form.is_valid():
