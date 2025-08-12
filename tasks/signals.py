@@ -30,3 +30,4 @@ def delete_associate_details(sender, instance, **kwargs):
         print(isinstance)
         instance.details.delete()
         print('deleted successfully')
+

@@ -47,7 +47,8 @@ def manager_dashboard(request):
 
     context = {
         'events': events,
-        'counts': counts
+        'counts': counts,
+        'role': 'organizer' #manager
 
     }
     return render(request, "events/manager-dashboard.html", context)

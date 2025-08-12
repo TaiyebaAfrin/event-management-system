@@ -24,8 +24,6 @@ class Event(models.Model):
         default=1
     )
     assigned_to = models.ManyToManyField(Participant, related_name='Events')
-    #assigned_to = models.ManyToManyField(Participant)
-    #assigned_to = models.ManyToManyField(User, related_name='Events')
     title = models.CharField(max_length=250)
     description = models.TextField()
     due_date = models.DateField()
