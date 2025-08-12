@@ -103,7 +103,7 @@ def create_task(request):
     return render(request, "task_form.html", context)
 
 
-@login_required
+#@login_required
 #@permission_required("tasks.change_event", login_url='no-permission')
 
 def update_event(request, id):
@@ -133,7 +133,7 @@ def update_event(request, id):
 
 
 
-@login_required
+#@login_required
 #@permission_required("tasks.delete_event", login_url='no-permission')
 def delete_event(request, id):
     if request.method == 'POST':
@@ -159,7 +159,7 @@ def participants(request):
      participants = Participant.objects.all()
      return render(request, "events/participants.html", {"participants": participants})
 
-@login_required
+#@login_required
 #@permission_required("tasks.view_event", login_url='no-permission')
 def view_event(request):
     participants = Participant.objects.all(
@@ -177,7 +177,7 @@ def category_list(request):
     return render(request, 'events/category_list.html', {'categories': categories})
 
 
-@login_required
+#@login_required
 #@permission_required("tasks.view_event", login_url='no-permission')
 def event_details(request, event_id):
     event = Event.objects.get(id=event_id)

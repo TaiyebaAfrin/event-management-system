@@ -43,7 +43,7 @@ def sign_in(request):
     return render(request, 'registration/login.html', {'form': form})
 
 
-@login_required
+#@login_required
 def sign_out(request):
     if request.method == 'POST':
         logout(request)
