@@ -3,13 +3,13 @@
  {% block Tasks %}
         
  <!-- Task Items  -->
-<div class="divide-y divide-gray-100 min-w-[600px]">
+<div class="divide-y divide-gray-100 min-w-[600px] mb-11">
             <!-- Task 1 -->
 {% for event in events %}
             <div class="grid grid-cols-4 gap-3 sm:gap-4 p-3 sm:p-4 items-center">
               <div class="flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                <span class="text-sm sm:text-base">{{event.title}}</span>
+                <a href="{% url 'event-details' event.id %}">{{event.title}}</a>
                 <a href='{% url "update-event" event.id %}' class="px-2 py-1 bg-green-500">Edit</a>
                  <form action='{% url "delete-event" event.id %}' method='POST'>
                     {% csrf_token %}

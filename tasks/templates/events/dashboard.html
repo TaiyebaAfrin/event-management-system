@@ -1,7 +1,10 @@
-{% extends "events/base.html" %}
+{% extends "base.html" %}
+{% block content %}
+
+{% comment %} {% extends "events/base.html" %}
 {% load static %}
 
- {% block Content %}
+ {% block idea %}
 
 
 <!DOCTYPE html>
@@ -25,10 +28,10 @@
       }
     </style>
   </head>
-  <body class="bg-gray-50 p-4 sm:p-6">
-    <div class="max-w-[1400px] mx-auto">
+<body class="bg-gray-50 p-4 sm:p-6">
+<div class="max-w-[1400px] mx-auto">
       <!-- Header  -->
-      <header class="flex justify-between items-center mb-6 sm:mb-8">
+<header class="flex justify-between items-center mb-6 sm:mb-8">
         <h1 class="text-xl sm:text-2xl font-semibold">Dashboard</h1>
         <div class="flex items-center gap-2 sm:gap-4">
           <button class="p-1 sm:p-2 rounded-full hover:bg-gray-100 relative">
@@ -53,11 +56,13 @@
             B
           </button>
         </div>
-      </header>
-
-      <main>
+</header> 
+<main>
+{% endcomment %}
        <!-- Stats Grid  -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+<div class='w-[1200px] mx-auto'>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8 my-12">
           <!-- Total EVENT  -->
           
           <a href="{% url 'manager-dashboard' %}">
@@ -178,19 +183,6 @@
           </a>
         </div> 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div>
          {% if messages %}
                 {% for message in messages %}
@@ -203,19 +195,16 @@
 
 
 
-
-
-
-
-
-
         {% block Tasks %}
         
         {% endblock Tasks %}
 
-      </main>
-    </div>
-  </body>
+</div>
+
+{% comment %} </main>
+ </div>
+</body>
 </html>
 
- {% endblock Content %}
+ {% endblock idea %} {% endcomment %}
+{% endblock content %}

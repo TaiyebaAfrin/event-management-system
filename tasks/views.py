@@ -76,26 +76,7 @@ def event_list(request):
    
 
 
-
-    
-
-
-def test(request):
-    names = ["Mahmud", "Ahamed", "John", "Mr. X"]
-    count = 0
-    for name in names:
-        count += 1
-    context = {
-        "names": names,
-        "age": 23,
-        "count": count
-    }
-    return render(request, 'test.html', context)
-
-
-
-
-@login_required
+#@login_required
 #@permission_required("tasks.add_event", login_url='no-permission')
 def create_task(request):
     #participants = Participant.objects.all()
@@ -180,7 +161,8 @@ def participants(request):
 @login_required
 #@permission_required("tasks.view_event", login_url='no-permission')
 def view_event(request):
-    participants = Participant.objects.all()
+    participants = Participant.objects.all(
+        num_event=Count('events')).order_by('num_event')
     return render(request, "show_event.html", {"participants": participants})
     # categories = Category.objects.all()
     # categories = Category.objects.select_related()
@@ -194,3 +176,8 @@ def category_list(request):
     return render(request, 'events/category_list.html', {'categories': categories})
 
 
+@login_required
+#@permission_required("tasks.view_event", login_url='no-permission')
+def event_details(request, event_id):
+    event = Event.objects.get(id=event_id)
+    return render(request, 'events/event_details.html',{"event": event})

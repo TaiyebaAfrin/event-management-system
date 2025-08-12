@@ -1,13 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/output.css' %}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
+<div class = "container mx-auto m-9 w-1/2">
     <h1>Welcome to Authentication System</h1>
     <div>
         {% if messages %}
@@ -23,8 +16,8 @@
         <form method='POST'>
             {% csrf_token %}
             {{ form }}
-             <button class='bg-blue-500 px-2 py-1 rounded-sm' type="submit">Sign In</button>
+             <button class='bg-blue-500 px-2 py-1 rounded-sm mt-3' type="submit">Sign In</button>
         </form>
     </div>
-</body>
-</html>
+</div>
+{% endblock content %}
