@@ -235,7 +235,17 @@ class EventDetailView(View):
 
 
 
+#@login_required
+def dashboard(request):
+    # if is_manager(request.user):
+    #     return redirect('manager-dashboard')
+    # elif is_participant(request.user):
+    #     return redirect('user-dashboard')
+    # # elif is_admin(request.user):
+    # #     return redirect('admin-dashboard')
 
+    return redirect('users/admin/sign-in.html')
+    #return render(request, 'events/dashboard.html', {'dashboard': dashboard})
 
 
 

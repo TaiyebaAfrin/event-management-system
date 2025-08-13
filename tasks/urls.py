@@ -1,6 +1,6 @@
 from django.urls import path
-from tasks.views import manager_dashboard, participant_dashboard, create_task, event_list, update_event, delete_event,view_event
-# from tasks.views import base, manager_dashboard, participant_dashboard, create_task, ev_home, view_event, event_list, participants, update_event, category_list, delete_event, event_details
+from tasks.views import manager_dashboard, participant_dashboard, create_task, event_list, dashboard, update_event, delete_event,view_event
+# from tasks.views import base, manager_dashboard, participant_dashboard, create_task, ev_home, view_event, event_list, participants, update_event, category_list, delete_event, event_details, 
 from django.views.generic import TemplateView
 from .views import BaseView, CategoryListView, EventDetailView, ParticipantsView, EventHomeView
 
@@ -25,6 +25,7 @@ urlpatterns = [
     path('event/<int:event_id>/details/', EventDetailView.as_view(), name='event-details'),
     path('participants/', ParticipantsView.as_view(), name='participants'),
     path('', EventHomeView.as_view(), name='event-home'), 
+    path('dashboard/', dashboard, name='dashboard')
 
 
 
