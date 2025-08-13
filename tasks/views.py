@@ -6,6 +6,9 @@ from datetime import date
 from django.db.models import Q, Count, Max, Min, Avg
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test, login_required, permission_required
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, PermissionRequiredMixin
+from django.views import View
 
 
 # Create your views here.
@@ -15,12 +18,14 @@ def is_manager(user):
 def is_participant(user):
     return user.groups.filter(name='Manager').exists()
 
+# 1 Convert Function-Based Views to Class-Based Views
+# def base(request):
+#     return render(request, "events/base.html")
+class BaseView(View):
+    def get(self, request):
+        return render(request, "events/base.html")
 
 
-
-
-def base(request):
-    return render(request, "events/base.html")
 
 #@user_passes_test(is_manager, login_url='no-permission')
 def manager_dashboard(request):
@@ -30,7 +35,7 @@ def manager_dashboard(request):
         completed=Count('id', filter=Q(status='COMPLETED')),
         in_progress=Count('id', filter=Q(status='IN_PROGRESS')),
         pending=Count('id', filter=Q(status='PENDING')),)
-    # retrrvie
+    # retrive
     base_query = Event.objects.select_related('details').prefetch_related('assigned_to')
 
 
@@ -67,8 +72,34 @@ def manager_dashboard(request):
 def participant_dashboard(request):
     return render(request, "events/user-dashboard.html")
 
-def ev_home(request):
-    return render(request, "events/home.html")
+# 2 Convert Function-Based Views to Class-Based Views
+
+# def participants(request):
+#      participants = Participant.objects.all()
+#      return render(request, "events/participants.html", {"participants": participants})
+
+class ParticipantsView(View):
+    def get(self, request):
+        participants = Participant.objects.all()
+        return render(request, "events/participants.html", {"participants": participants})
+
+
+
+
+
+#3 Convert Function-Based Views to Class-Based Views
+
+# def ev_home(request):
+#     return render(request, "events/home.html")
+
+class EventHomeView(View):
+    def get(self, request):
+        return render(request, "events/home.html")
+
+
+
+
+
 
 
 def event_list(request):
@@ -153,32 +184,65 @@ def delete_event(request, id):
 
 
 
-
-
-def participants(request):
-     participants = Participant.objects.all()
-     return render(request, "events/participants.html", {"participants": participants})
-
 #@login_required
 #@permission_required("tasks.view_event", login_url='no-permission')
 def view_event(request):
     participants = Participant.objects.all(
         num_event=Count('events')).order_by('num_event')
     return render(request, "show_event.html", {"participants": participants})
-    # categories = Category.objects.all()
-    # categories = Category.objects.select_related()
-    # return render(request, 'events/category_list.html', {'categories': categories})
 
 
 
 
-def category_list(request):
-    categories = Category.objects.all()
-    return render(request, 'events/category_list.html', {'categories': categories})
+# 4Convert Function-Based Views to Class-Based Views
 
+# def category_list(request):
+#     categories = Category.objects.all()
+#     return render(request, 'events/category_list.html', {'categories': categories})
+class CategoryListView(View):
+    def get(self, request):
+        categories = Category.objects.all()
+        return render(request, 'events/category_list.html', {'categories': categories})
+    
+
+
+# 5 Convert Function-Based Views to Class-Based Views
 
 #@login_required
 #@permission_required("tasks.view_event", login_url='no-permission')
-def event_details(request, event_id):
-    event = Event.objects.get(id=event_id)
-    return render(request, 'events/event_details.html',{"event": event})
+# def event_details(request, event_id):
+#     event = Event.objects.get(id=event_id)
+#     return render(request, 'events/event_details.html',{"event": event})
+
+class EventDetailView(View):
+    login_url = 'no-permission'
+    permission_required = "tasks.view_event"
+    
+    def get(self, request, event_id):
+        event = Event.objects.get(id=event_id)
+        return render(request, 'events/event_details.html', {"event": event})
+    
+# class EventDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
+#     login_url = 'no-permission'
+#     permission_required = "tasks.view_event"
+    
+#     def get(self, request, event_id):
+#         event = Event.objects.get(id=event_id)
+#         return render(request, 'events/event_details.html', {"event": event})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Convert Function-Based Views to Class-Based Views
