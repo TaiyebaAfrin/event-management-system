@@ -43,3 +43,5 @@ def assign_role(sender, instance, created, **kwargs):
         user_group, created = Group.objects.get_or_create(name='User')
         instance.groups.add(user_group)
         instance.save()
+
+

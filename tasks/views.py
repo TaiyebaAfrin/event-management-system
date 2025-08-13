@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from tasks.forms import EventForm, EventModelForm, EventDetailModelForm
-from tasks.models import Participant, Event, Category
+from tasks.models import Event, Category
 from datetime import date
 from django.db.models import Q, Count, Max, Min, Avg
 from django.contrib import messages
@@ -53,7 +53,7 @@ def manager_dashboard(request):
     context = {
         'events': events,
         'counts': counts,
-        'role': 'organizer' #manager
+        'role': 'manager' #manager
 
     }
     return render(request, "events/manager-dashboard.html", context)
@@ -108,8 +108,9 @@ def event_list(request):
    
 
 
-#@login_required
-#@permission_required("tasks.add_event", login_url='no-permission')
+#old
+# #@login_required
+# #@permission_required("tasks.add_event", login_url='no-permission')
 def create_task(request):
     #participants = Participant.objects.all()
     event_form = EventModelForm()
@@ -213,6 +214,7 @@ class CategoryListView(View):
 # def event_details(request, event_id):
 #     event = Event.objects.get(id=event_id)
 #     return render(request, 'events/event_details.html',{"event": event})
+#note:context={"event": event}
 
 class EventDetailView(View):
     login_url = 'no-permission'
@@ -222,13 +224,7 @@ class EventDetailView(View):
         event = Event.objects.get(id=event_id)
         return render(request, 'events/event_details.html', {"event": event})
     
-# class EventDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
-#     login_url = 'no-permission'
-#     permission_required = "tasks.view_event"
-    
-#     def get(self, request, event_id):
-#         event = Event.objects.get(id=event_id)
-#         return render(request, 'events/event_details.html', {"event": event})
+
 
 
 

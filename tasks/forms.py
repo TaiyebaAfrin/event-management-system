@@ -1,5 +1,5 @@
 from django import forms
-from tasks.models import Event, EventDetail, Participant
+from tasks.models import Event, EventDetail
 
 class EventForm(forms.Form):
     title = forms.CharField(max_length=250, label="Task Title")
@@ -11,12 +11,18 @@ class EventForm(forms.Form):
         label='Assigned To'
     )
 
+    # def __init__(self, *args, **kwargs):
+    #     participants = kwargs.pop('Participant')
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['assigned_to'].choices = [
+    #         (participant.id, participant.name) for participant in participants
+     #   ]
     def __init__(self, *args, **kwargs):
-        participants = kwargs.pop('Participant', Participant.objects.all())
+        # print(args, kwargs)
+        participants = kwargs.pop("participants", [])
         super().__init__(*args, **kwargs)
         self.fields['assigned_to'].choices = [
-            (participant.id, participant.name) for participant in participants
-        ]
+            (pats.id, pats.name) for pats in participants]
 
 class StyledFormMixin:
     """Mixin to apply style to form fields"""
@@ -55,7 +61,7 @@ class StyledFormMixin:
 class EventModelForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['title', 'description','assigned_to', 'due_date']
+        fields = ['title', 'description', 'due_date', 'assigned_to'] 
         widgets = {
             'due_date': forms.SelectDateWidget,
             'assigned_to': forms.CheckboxSelectMultiple

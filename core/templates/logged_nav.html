@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
           <a href="index.html" class="text-xl font-bold text-gray-800">Events</a
           >
-          <div class="gap-1 md:flex space-x-4">
+          <div class="hidden md:flex space-x-4">
             <a
               href="{% url 'admin-dashboard' %}"
               class="text-gray-600 hover:text-gray-800"
@@ -17,7 +17,8 @@
               <button id="user-menu-button"
                 class="flex items-center focus:outline-none">
                 <img class="h-8 w-8 rounded-full object-cover"
-                  src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/dashboard/default/48px.svg" alt="User avatar"/>
+                  src="https://placekitten.com/100/100"
+                  alt="User avatar"/>
               </button>
               <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden">
                 <a href="{% url 'admin-dashboard' %}"
@@ -64,8 +65,9 @@
             >Groups</a
           >
           <a href="{% url "create-task" %}" class="block py-2 text-gray-600 hover:text-gray-800"
-            >Create hGroup</a
+            >Create Group</a
           >
         </div>
    </nav>
-</header>
+</header> 
+
