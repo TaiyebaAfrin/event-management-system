@@ -29,6 +29,7 @@ class BaseView(View):
 
 #@user_passes_test(is_manager, login_url='no-permission')
 def manager_dashboard(request):
+<<<<<<< HEAD
     events = Event.objects.select_related('details').prefetch_related('assigned_to')
     counts = Event.objects.aggregate(
         total=Count('id'),
@@ -48,12 +49,31 @@ def manager_dashboard(request):
     elif type == 'pending':
         events = base_query.filter(status='PENDING')
     elif type == 'all':
+=======
+    # total_event = Event.objects.count() #TOTAL TASK
+    # completed_event = Event.objects.filter(status= "COMPLETED").count #COMPLETED TASK
+    # in_progress_event = Event.objects.filter(status= "IN_PROGRESS").count #TASK IN PROGRESS
+    # pending_event = Event.objects.filter(status= "PENDING").count #todo
+
+    counts = Event.objects.aggregate(
+        total=Count('id'),
+        completed=Count('id', filter=Q(status='COMPLETED')),
+        in_progress=Count('id', filter=Q(status='IN_PROGRESS')),
+        pending=Count('id', filter=Q(status='PENDING')),)
+    # retrrvie
+    base_query = Event.objects.select_related('details').prefetch_related('assigned_to')
+    if type == 'completed':
+>>>>>>> main
         events = base_query.all()
 
     context = {
         'events': events,
+<<<<<<< HEAD
         'counts': counts,
         'role': 'manager' #manager
+=======
+        'counts': counts
+>>>>>>> main
 
     }
     return render(request, "events/manager-dashboard.html", context)
