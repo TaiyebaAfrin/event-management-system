@@ -42,9 +42,9 @@
                     <a href="{% url 'event_list' %}" class="hover:text-indigo-200 transition flex items-center">
                         <i class="fas fa-calendar-day mr-1"></i> Events
                     </a>
-                    <a href="{% url 'participants' %}" class="hover:text-indigo-200 transition flex items-center">
+                    {% comment %} <a href="{% url 'participants' %}" class="hover:text-indigo-200 transition flex items-center">
                         <i class="fas fa-users mr-1"></i> Participants
-                    </a>
+                    </a> {% endcomment %}
                     <a href="{% url 'category_list' %}" class="hover:text-indigo-200 transition flex items-center">
                         <i class="fas fa-tags mr-1"></i> Categories
                     </a>
